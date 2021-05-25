@@ -1,0 +1,9 @@
+1. IV:
+	!Users managment api first cause others api's will depend on it
+
+2,3,4. I, II, III
+
+5. Client:
+	- PHP mb
+
+6. API doc

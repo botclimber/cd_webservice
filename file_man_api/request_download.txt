@@ -1,0 +1,1 @@
+curl -O --request GET "http://127.0.0.1:4999/files/api/v1/download/teste@teste.pt/mg.jpg"
