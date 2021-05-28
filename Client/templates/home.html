@@ -1,0 +1,29 @@
+<html>
+<head>
+</head>
+
+<body>
+
+<h2>Chose something to do:</h2>
+
+<div>
+	<ul>
+		{% if user_type == 0 %}<li><a href="/users">Users</a></li>
+		<li><a href="/add_user">Add User</a></li>
+		<li><a href="/delete_user/view">Delete User</a></li>
+		<li><a href="/add_group">Add Group</a></li>
+		<li><a href="/add_channel">Add Channel</a></li>
+		{% endif %}
+		<li><a href="/chg_password">Change Password</a></li>
+		<li><a href="/chat_index">Chat system</a></li>
+		<li><a href="/email/all">Email system</a></li>
+		<li><a href="/files">File system</a></li>
+	</ul>
+
+<button onclick="location.href='/logout'">Logout</button>
+</div>
+
+</body>
+
+
+</html>

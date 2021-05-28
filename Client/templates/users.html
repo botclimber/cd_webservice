@@ -1,0 +1,33 @@
+<html>
+<head>
+</head>
+
+<body>
+
+<div>
+<a href="/"><button>HOME</button></a><br><br>
+</div>
+
+<table>
+<thead>
+<th>#</th>
+<th>email</th>
+<th>name</th>
+</thead>
+
+<tbody>
+	
+	{% for x in users %}
+	<tr>
+		<td>x</td>
+		<td>{{x['email']}}</td>
+		<td>{{x['name']}}</td>
+		<td></td>
+	</tr>
+	{% endfor %}
+</tbody>
+
+</table>		
+</body>
+
+</html>

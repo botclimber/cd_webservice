@@ -1,0 +1,26 @@
+<html>
+<head>
+</head>
+
+<body>
+<div><a href="/"><button>HOME</button></a></div>
+<br><br>
+
+<div>
+<label>Available Groups</label>
+{% for x in groups %}
+<p><b>Name: </b> {{x['group_name']}} | <b>Emails: </b> {{x['emails']}} </p>
+{% endfor %}
+</div>
+<br><br>
+<div>
+<form method="post" action="/add_group">
+<input type="text" name="group_name" placeholder="Group Name">
+<input type="text" name="emails" placeholder="Emails separated by comma (x,y,z)" >
+<input type="submit" value="add">
+</form>
+</div>
+
+</body>
+
+</html>

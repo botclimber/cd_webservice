@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>My Chat App</title>
+</head>
+<body>
+<div><a href="/"><button>HOME</button></a></div>
+<br><br>
+
+<form action="/room">
+<input type="hidden" name="name" value="anon" />
+    	<div>
+        	<h2>Channels:</h2>
+    		{% for x in channels %}
+			<button type="submit" name="room" value="{{x}}" >{{x}}</button>
+		{% endfor %}
+	</div>
+</form>
+
+</body>
+</html>
