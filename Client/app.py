@@ -29,9 +29,13 @@ def _r(url, method, auth_tk = None, body = None ):
 	
 	elif method.upper() == 'PUT':
 		r = requests.put(url, json=body, headers = header)
+	
+	try:
+		response = json.loads(r.text)
+	except:
+		response = None
 
-	return json.loads(r.text)
-
+	return response
 
 def imauser(_token):
 	
@@ -258,21 +262,52 @@ def email(action):
 	return render_template('emails.html', data = data, action=action)
 
 
-'''
+
 # FILE SYSTEM
-@app.route('/chg_password' )
-def chg_password():
+@app.route('/files/<action>', methods=['GET', 'POST'])
+def files(action):
 	
 	if not imauser(token): return redirect('/')	
-	if request.method != 'POST': 
-		return render_template('chg_password.html')	
 
-	data = {'old_password': request.form['old_password'] ,'new_password': request.form['new_password']}
-	url = url_api_users+'chg_password'
-	r = _r(url, 'put', token['token'], data)
+	if request.method == 'POST':
+		if action == 'upload':
+			filename = request.form['file']
+			url = url_api_files+'upload/'+token['email']
+			method = 'post'
+		
+			data = {'file':(filename, open( filename ,'rb')) }			
+			
+			requests.post(url, files = data)
+			
+			return redirect('/files/view')			
+
 	
-	return render_template('chg_password.html', r=r)
-''' 
+	if action == 'view':
+		url = url_api_files
+		method = 'get'
+
+	elif action == 'delete':
+		url = url_api_files+'rm_file/'+request.args.get('file_name')	
+		method = 'delete'
+		_r(url, method, token['token'])		
+		
+		return redirect('/files/view')
+
+	elif action == 'download':
+		url = url_api_files+'download/'+request.args.get('file_name')	
+		r = requests.get(url, allow_redirects=True)
+		open(request.args.get('file_name'), 'wb').write(r.content)
+	
+		return redirect('/files/view')
+
+	else:
+		return redirect('/')
+
+	data = _r(url, method, token['token'])	
+
+	return render_template('files.html', data = data)
+
+
 
 @app.route('/logout')
 def logout():

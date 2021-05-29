@@ -227,7 +227,7 @@
             }
             </style>
             <script src="https://code.jquery.com/jquery-3.6.0.slim.min.js" integrity="sha256-u7e5khyithlIdTpu22PHhENmPcRdFiHRjhAuHcs05RI=" crossorigin="anonymous"></script>
-            </head>
+    </head>
     
     <body>
         <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
@@ -243,7 +243,7 @@
                                         <h2 class="grid-title"><a href="/"><i class="fa fa-home"></i> Home</a></h2>
                                         
                                         <hr>
-                                        
+
                                     </div>
                                     <!-- END INBOX MENU -->
                                     
@@ -261,31 +261,45 @@
                                         
                                         <div class="padding"></div>
                                         <div class="table-responsive">
-                                            <table class="table table-bordered">
-                                                <thead>
-                                                    <th>#</th>
-                                                    <th>email</th>
-                                                    <th>name</th>
-                                                </thead>
-                                                
-                                                <tbody>
+                                            <div class="row">
+                                                <div class="col-md-8">
+                                                <p>Nr Files: {{data['nr_files']}}</p>
+                                                <table class="table table-bordered">
+                                                    <thead>
+                                                        <th>#</th>
+                                                        <th>File</th>
+                                                        <th></th>
+                                                        <th></th>
+                                                    </thead>
                                                     
-                                                    {% for x in users %}
-                                                    <tr>
-                                                        <td>x</td>
-                                                        <td>{{x['email']}}</td>
-                                                        <td>{{x['name']}}</td>
-                                                    </tr>
-                                                    {% endfor %}
-                                                </tbody>
-                                                
-                                            </table>
+                                                    <tbody>
+                                                        
+                                                        {% for x in data['files'] %}
+                                                        <tr>
+                                                            <td>x</td>
+                                                            <td>{{x}}</td>
+                                                            <td><button style="font-size:8pt;" onclick="location.href='/files/download?file_name={{x}}'"  class="btn btn-primary">Download</button></td>
+                                                            <td><button style="font-size:8pt;" onclick="if (confirm('ARE U SURE ?')) { location.href='/files/delete?file_name={{x}}'; }"  class="btn btn-danger">Delete</button></td>
+                                                        </tr>
+                                                        {% endfor %}
+                                                    </tbody>
+                                                    
+                                                </table>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <h2>Upload File</h2>
+                                                    <form class="form-group" method="post" action="/files/upload">
+                                                        <input type="file" class="form-control" onchange="this.form.submit();" name="file" >
+                                                    </form>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                     <!-- END INBOX CONTENT -->
                                     
                                     
-                                    </body>
+    </body>
     
 </html>
+
 

@@ -1,4 +1,5 @@
-from flask import Flask, request, jsonify, make_response
+import os
+from flask import Flask, request, jsonify, make_response, send_from_directory
 from flask_socketio import *
 
 from functools import wraps
@@ -44,7 +45,7 @@ def login():
         
     if auth.password == user['password']:
         token = jwt.encode({'email_key': user['email'], 'exp': datetime.datetime.utcnow()+datetime.timedelta(minutes=30) }, app.config['SECRET_KEY'], algorithm="HS256")
-        return jsonify({'token': token, 'user_type': user['user_type']})
+        return jsonify({'token': token, 'email': user['email'], 'user_type': user['user_type']})
 
     return make_response('could not verify', 401, {'wwww-Authenticate':'Basic realm="Login required!"'})
 
@@ -245,11 +246,11 @@ def write_email(current_user):
 
 # *************** File managment system ***************
 
-@app.route('/files/api/v1/files', methods=['GET'])
+@app.route('/files/api/v1/', methods=['GET'])
 @token_required
 def get_files(current_user):
     
-    response = get_files(current_user['email'])
+    response = get_all_files(current_user['email'])
     return jsonify(response)
 
 
@@ -261,25 +262,25 @@ def rm_file(current_user, filename):
     return jsonify(response)
 
 
-@app.route('/files/api/v1/upload', methods=['POST'])
-@token_required
-def upload_file(current_user):
+@app.route('/files/api/v1/upload/<email>', methods=['GET', 'POST'])
+def upload_file(email):
     #set expire time
     
     f = request.files['file']
-    
-    if os.path.exists(current_user['email']) == False: os.mkdir(current_user['email'])
-    response = f.save(current_user['email']+'/'+f.filename)
+ 
+    if os.path.exists('file_man_api/'+email) == False: os.mkdir('file_man_api/'+email)
+    response = f.save('file_man_api/'+email+'/'+f.filename)
     
     return jsonify(response)
 
 
-@app.route('/files/api/v1/download/<filename>', methods=['GET'])
+@app.route('/files/api/v1/download/<path:filename>', methods=['GET'])
 @token_required
 def download_file(current_user, filename):
-    
+    print(os.getcwd())
     # send it
-    return send_from_directory(current_user['email'], filename, as_attachment=True)
+    
+    return send_from_directory('file_man_api/'+current_user['email'], filename, as_attachment=True)
 
 # ************************************
 

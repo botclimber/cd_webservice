@@ -1,11 +1,13 @@
 import os
 import glob
 
-def get_files(email):
+_path = 'file_man_api/'
+
+def get_all_files(email):
 	data = {'nr_files': 0, 'files':[]}
 
-	if os.path.exists(email):
-		f = os.listdir(email)			
+	if os.path.exists(_path+email):
+		f = os.listdir(_path+email)			
 		
 		for x in f:
 			data['files'].append(x)
@@ -17,8 +19,8 @@ def get_files(email):
 def delete_file(email, filename):	
 	status = None
 
-	if os.path.exists(email):
-		status = os.remove(email+'/'+filename)
+	if os.path.exists(_path+email):
+		status = os.remove(_path+email+'/'+filename)
 
 	return status
 
