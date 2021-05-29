@@ -1,1 +1,0 @@
-curl -O --request GET "http://127.0.0.1:5000/files/api/v1/download/EST-Logo_Cor-05-scaled.jpeg"
