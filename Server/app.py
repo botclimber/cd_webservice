@@ -1,5 +1,5 @@
 import os
-from flask import Flask, request, jsonify, make_response, send_from_directory
+from flask import Flask, render_template, request, jsonify, make_response, send_from_directory
 from flask_socketio import *
 
 from functools import wraps
@@ -24,8 +24,7 @@ status = False
 
 @app.route('/')
 def index():
-    return "delusional"
-
+	return render_template('index.html')
 
 # LOGIN
 @app.route('/api/v1/login/')
